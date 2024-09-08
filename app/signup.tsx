@@ -8,7 +8,7 @@ import { Input } from '~/components/ui/input';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
 import { Svg, Path } from 'react-native-svg';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 const FacebookIcon = (props: any) => (
     <Svg viewBox="0 0 24 24" width={24} height={24} {...props}>
@@ -33,6 +33,7 @@ const AppleIcon = (props: any) => (
 
 export default function LoginScreen() {
     const [checked, setChecked] = useState(false);
+    const router = useRouter();
     return (
         <View style={styles.container}>
             <View style={styles.content}>
@@ -53,7 +54,7 @@ export default function LoginScreen() {
                         <Text style={styles.checkboxLabel}>Remember me</Text>
                     </View>
                     <Button
-                        onPress={() => { }}
+                        onPress={() => { router.replace('/setup_profile' );}}
                         style={styles.button}
                     ><Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text></Button>
                 </View>
@@ -74,7 +75,7 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.signupText}>
-                    Already have an account? <Link href="/"><Text style={styles.signupLink}>Login</Text></Link>
+                    Already have an account? <Link href="/" replace={true}><Text style={styles.signupLink}>Login</Text></Link>
                 </Text>
             </View>
         </View>

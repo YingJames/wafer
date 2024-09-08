@@ -8,7 +8,7 @@ import { Input } from '~/components/ui/input';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Button } from '~/components/ui/button';
 import { Svg, Path } from 'react-native-svg';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 const FacebookIcon = (props: any) => (
     <Svg viewBox="0 0 24 24" width={24} height={24} {...props}>
@@ -33,10 +33,11 @@ const AppleIcon = (props: any) => (
 
 export default function LoginScreen() {
     const [checked, setChecked] = useState(false);
+    const router = useRouter();
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.title}>Login</Text>
+                <Text style={styles.title} className="mb-10">Login</Text>
                 <View style={styles.form}>
                     <Input
                         placeholder="Email"
@@ -53,7 +54,7 @@ export default function LoginScreen() {
                         <Text style={styles.checkboxLabel}>Remember me</Text>
                     </View>
                     <Button
-                        onPress={() => { }}
+                        onPress={() => {  }}
                         style={styles.button}
                     ><Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text></Button>
                 </View>
@@ -74,7 +75,7 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.signupText}>
-                    Don't have an account? <Link href="/signup"><Text style={styles.signupLink}>Sign Up</Text></Link>
+                    Don't have an account? <Link href="/signup" replace={true}><Text style={styles.signupLink}>Sign Up</Text></Link>
                 </Text>
             </View>
         </View>
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 24,
         lineHeight: 32,
     },
     form: {
