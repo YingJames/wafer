@@ -30,7 +30,7 @@ export default function SetupProfile() {
                         className='mb-10'
                     />
                     <Button
-                        onPress={() => { router.replace('/') }}
+                        onPress={() => { router.replace('/home') }}
                         style={styles.button}
                     >
                         <Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text>

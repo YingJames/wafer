@@ -54,7 +54,7 @@ export default function LoginScreen() {
                         <Text style={styles.checkboxLabel}>Remember me</Text>
                     </View>
                     <Button
-                        onPress={() => {  }}
+                        onPress={() => { router.replace('/home') }}
                         style={styles.button}
                     ><Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text></Button>
                 </View>

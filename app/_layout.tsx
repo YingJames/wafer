@@ -44,8 +44,8 @@ export default function RootLayout() {
 
   useEffect(() => {
     const initializeApp = async () => {
-      console.log('Fonts Loaded:', fontsLoaded);
-      console.log('Error Loading Fonts:', error);
+      // console.log('Fonts Loaded:', fontsLoaded);
+      // console.log('Error Loading Fonts:', error);
 
       // Check if fonts are loaded
       if (!fontsLoaded) return; // Wait until fonts are loaded
@@ -53,7 +53,7 @@ export default function RootLayout() {
       try {
         // Handle color scheme
         const theme = await AsyncStorage.getItem('theme');
-        console.log('Stored Theme:', theme);
+        // console.log('Stored Theme:', theme);
 
         if (Platform.OS === 'web') {
           // Adds the background color to the html element to prevent white background on overscroll.
