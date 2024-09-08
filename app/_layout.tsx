@@ -93,15 +93,9 @@ export default function RootLayout() {
     <TextClassContext.Provider value="font-cabin-regular">
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack>
-          <Stack.Screen
-            name='index'
-            options={{
-              // title: 'Login',
-              // headerRight: () => <ThemeToggle />,
-              headerShown: false
-            }}
-          />
+        <Stack screenOptions={{headerShown: false}}>
+          <Stack.Screen name='index'/>
+          <Stack.Screen name='signup'/>
         </Stack>
         <PortalHost />
       </ThemeProvider>
