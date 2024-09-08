@@ -1,41 +1,36 @@
 import React from 'react';
-import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+// import { Input, Checkbox, Button } from '~/components/ui/input';
 import { Text } from '~/components/ui/text';
 import { Input } from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
-import { router } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
-export default function SetupProfile() {
-    const [checked, setChecked] = useState(false);
+export default function Home() {
+    const router = useRouter();
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.title} className='mb-10'>Setup Your Profile</Text>
+                <Text style={styles.title}>Sign Up</Text>
                 <View style={styles.form}>
                     <Input
-                        placeholder="Name"
+                        placeholder="Email"
+                        keyboardType="email-address"
                         style={styles.input}
                     />
                     <Input
-                        placeholder="Date of Birth"
+                        placeholder="Password"
+                        secureTextEntry
                         style={styles.input}
-                    />
-                    <Input
-                        placeholder="Based In"
-                        style={styles.input}
-                    />
-                    <Input
-                        placeholder="Languages"
-                        className='mb-10'
                     />
                     <Button
-                        onPress={() => { router.replace('/') }}
+                        onPress={() => { router.replace('/setup_profile' );}}
                         style={styles.button}
-                    >
-                        <Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text>
-                    </Button>
+                    ><Text style={{fontFamily:"Cabin_700Bold"}}>Continue</Text></Button>
                 </View>
+                <Text style={styles.signupText}>
+                    Already have an account? <Link href="/" replace={true}><Text style={styles.signupLink}>Login</Text></Link>
+                </Text>
             </View>
         </View>
     );
@@ -58,16 +53,11 @@ const styles = StyleSheet.create({
         // maxWidth: 320,
     },
     title: {
-        fontSize: 42,
+        fontSize: 32,
         fontWeight: 'bold',
-        // marginBottom: 24,
-        lineHeight: 42,
+        marginBottom: 24,
+        lineHeight: 32,
     },
-
-    subtitle: {
-        fontSize: 17
-    },
-
     form: {
         marginBottom: 24,
     },
