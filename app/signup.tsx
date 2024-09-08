@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 // import { Input, Checkbox, Button } from '~/components/ui/input';
 import { Separator } from '~/components/ui/separator';
@@ -36,7 +36,7 @@ export default function LoginScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.title}>Login</Text>
+                <Text style={styles.title}>Sign Up</Text>
                 <View style={styles.form}>
                     <Input
                         placeholder="Email"
@@ -74,7 +74,7 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.signupText}>
-                    Don't have an account? <Link href="/signup"><Text style={styles.signupLink}>Sign Up</Text></Link>
+                    Already have an account? <Link href="/"><Text style={styles.signupLink}>Login</Text></Link>
                 </Text>
             </View>
         </View>

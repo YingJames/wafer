@@ -46,4 +46,8 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
+
+  .font-cabin-regular {
+    font-family: 'Cabin_400Regular';
+  }
 }

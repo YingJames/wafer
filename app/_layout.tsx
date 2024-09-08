@@ -2,15 +2,19 @@ import '~/global.css';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Theme, ThemeProvider } from '@react-navigation/native';
-import { SplashScreen, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
+import { Cabin_400Regular, Cabin_700Bold, useFonts } from '@expo-google-fonts/cabin';
+import * as SplashScreen from 'expo-splash-screen';
+import { TextClassContext } from '~/components/ui/text';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -33,49 +37,74 @@ export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  React.useEffect(() => {
-    (async () => {
-      const theme = await AsyncStorage.getItem('theme');
-      if (Platform.OS === 'web') {
-        // Adds the background color to the html element to prevent white background on overscroll.
-        document.documentElement.classList.add('bg-background');
-      }
-      if (!theme) {
-        AsyncStorage.setItem('theme', colorScheme);
+  const [fontsLoaded, error] = useFonts({
+    Cabin_400Regular,
+    Cabin_700Bold,
+  });
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      console.log('Fonts Loaded:', fontsLoaded);
+      console.log('Error Loading Fonts:', error);
+
+      // Check if fonts are loaded
+      if (!fontsLoaded) return; // Wait until fonts are loaded
+
+      try {
+        // Handle color scheme
+        const theme = await AsyncStorage.getItem('theme');
+        console.log('Stored Theme:', theme);
+
+        if (Platform.OS === 'web') {
+          // Adds the background color to the html element to prevent white background on overscroll.
+          document.documentElement.classList.add('bg-background');
+        }
+
+        if (!theme) {
+          await AsyncStorage.setItem('theme', colorScheme);
+          setColorScheme(colorScheme);
+        } else {
+          // ONLY LIGHT MODE
+          const colorTheme = theme === 'dark' ? 'light' : 'light';
+          if (colorTheme !== colorScheme) {
+            setColorScheme(colorTheme);
+          }
+        }
+
         setIsColorSchemeLoaded(true);
-        return;
+        await SplashScreen.hideAsync(); // Hide splash screen after fonts and theme are set
+      } catch (err) {
+        console.error('Error initializing app:', err);
       }
-      const colorTheme = theme === 'dark' ? 'dark' : 'light';
-      if (colorTheme !== colorScheme) {
-        setColorScheme(colorTheme);
-        setAndroidNavigationBar(colorTheme);
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      setAndroidNavigationBar(colorTheme);
-      setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      SplashScreen.hideAsync();
-    });
-  }, []);
+    };
+
+    initializeApp();
+  }, [fontsLoaded, colorScheme]); // Run effect when fontsLoaded or colorScheme changes
+
+  if (!fontsLoaded || !isColorSchemeLoaded) {
+    return null; // or a loading screen
+  }
 
   if (!isColorSchemeLoaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack>
-        <Stack.Screen
-          name='index'
-          options={{
-            title: 'Starter Base',
-            headerRight: () => <ThemeToggle />,
-          }}
-        />
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <TextClassContext.Provider value="font-cabin-regular">
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Stack>
+          <Stack.Screen
+            name='index'
+            options={{
+              // title: 'Login',
+              // headerRight: () => <ThemeToggle />,
+              headerShown: false
+            }}
+          />
+        </Stack>
+        <PortalHost />
+      </ThemeProvider>
+    </TextClassContext.Provider>
   );
 }
